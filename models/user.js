@@ -18,6 +18,6 @@ var userSchema = new Schema({
 
 });
 
-userSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' });
+userSchema.plugin(uniqueValidator, { message: 'Error, {PATH} debe ser unico.' });
 
 module.exports = mongoose.model("users", userSchema);

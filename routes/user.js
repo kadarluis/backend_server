@@ -10,7 +10,6 @@ var usuario = require('../models/user');
 //  OBTENER TODOS LOS USUARIOS
 // ========================================================
 
-
 app.get("/", (req, res, next) => {
 
     usuario.find({}, 'nombres Apellidos email img role')
@@ -63,11 +62,64 @@ app.post('/', (req, res) => {
             ok: true,
             usuario: usuarioSave
         });
+
     });
-
-
-
 });
 
+// ========================================================
+//  ACTUALIZAR LOS USUARIOS
+// ========================================================
+
+app.put('/:id', (req, res) => {
+
+    var id = req.params.id;
+    var body = req.body;
+
+    // Verifico si existe usuario con el id
+    usuario.findById(id, (err, usuarioID) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                mensaje: 'Error al buscar usuario',
+                errors: err
+            });
+        }
+
+        // Verifico si el usuario esta vacio
+        if (!usuarioID) {
+            return res.status(400).json({
+                ok: false,
+                mensaje: 'El usuario con el id: ' + id + ', no existe',
+                errors: err
+            });
+        }
+
+        // Ya encontrado el usuario lo modifico
+        usuarioID.nombres = body.nombres;
+        usuarioID.apellidos = body.apellidos;
+        usuarioID.email = body.email;
+        usuarioID.role = body.role;
+
+        usuarioID.save((err, usuarioSave) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    mensaje: 'Error al actualizar Usuarios',
+                    errors: err
+                });
+            }
+
+            usuarioSave.password = ':P';
+
+            res.status(200).json({
+                ok: true,
+                usuario: usuarioSave
+            });
+
+        });
+
+    });
+
+});
 
 module.exports = app;
