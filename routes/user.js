@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var bcrypt = require('bcryptjs');
 
 //IMPORT SCHEMA
 var usuario = require('../models/user');
@@ -44,7 +45,7 @@ app.post('/', (req, res) => {
         nombres: body.nombres,
         apellidos: body.apellidos,
         email: body.email,
-        password: body.password,
+        password: bcrypt.hashSync(body.password, 10),
         img: body.img,
         role: body.role
     });
