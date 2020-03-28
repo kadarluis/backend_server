@@ -1,26 +1,31 @@
-// REQUIRES
 var express = require('express');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+
+//IMPORTS
+appRoutes = require('./routes/app');
+userRoutes = require('./routes/user');
+
 
 // INITIALIZA
 var app = express();
 
-//CONECT TO DB
-mongoose.connection.openUri('mongodb://localhost:27017/eiaDB', (err, res) => {
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+
+//CONECTION TO DB
+mongoose.connect('mongodb://localhost:27017/eiaDB', (err, res) => {
     if (err) throw err;
     console.log('DB: \x1b[32m%s\x1b[0m', 'ONLINE');
 });
 
+//ROUTES
+app.use('/user', userRoutes);
+app.use('/', appRoutes);
 
-//ROUTER
-app.get("/", (req, res, next) => {
-
-    res.status(200).json({
-        ok: true,
-        mensaje: 'Petición realizada correctamente'
-
-    });
-});
 
 //LISTENING
 app.listen(3000, () => {
