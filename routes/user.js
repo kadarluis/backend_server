@@ -90,7 +90,7 @@ app.put('/:id', (req, res) => {
             return res.status(400).json({
                 ok: false,
                 mensaje: 'El usuario con el id: ' + id + ', no existe',
-                errors: err
+                errors: { message: 'El usuario con el id: ' + id + ', no existe' }
             });
         }
 
@@ -115,10 +115,47 @@ app.put('/:id', (req, res) => {
                 ok: true,
                 usuario: usuarioSave
             });
+        });
+    });
+});
 
+// ========================================================
+//  BORRAR USUARIOS
+// ========================================================
+
+app.delete('/:id', (req, res) => {
+
+    var id = req.params.id
+
+    // Busco el usuario por su id
+
+    usuario.findByIdAndDelete(id, (err, usuarioDelete) => {
+
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                mensaje: 'Error al borrar usuario',
+                errors: err
+            });
+        }
+
+        // Verifico si el usuario esta vacio
+        if (!usuarioDelete) {
+            return res.status(400).json({
+                ok: false,
+                mensaje: 'El usuario con el id: ' + id + ', no existe',
+                errors: { message: 'El usuario con el id: ' + id + ', no existe' }
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            usuario: usuarioDelete
         });
 
     });
+
+
 
 });
 
