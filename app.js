@@ -2,9 +2,10 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
-//IMPORTS
+//IMPORTS ROUTES
 appRoutes = require('./routes/app');
 userRoutes = require('./routes/user');
+loginRoutes = require('./routes/login');
 
 
 // INITIALIZA
@@ -24,6 +25,7 @@ mongoose.connect('mongodb://localhost:27017/eiaDB', (err, res) => {
 
 //ROUTES
 app.use('/user', userRoutes);
+app.use('/login', loginRoutes);
 app.use('/', appRoutes);
 
 

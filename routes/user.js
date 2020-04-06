@@ -1,8 +1,9 @@
 var express = require('express');
-var app = express();
 var bcrypt = require('bcryptjs');
 
-//IMPORT SCHEMA
+var app = express();
+
+//IMPORT SCHEMA USUARIOS
 var usuario = require('../models/user');
 
 
