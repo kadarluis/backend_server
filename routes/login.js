@@ -2,6 +2,8 @@ var express = require('express');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
+var SEED = require('../config/config').SEED;
+
 var app = express();
 
 //IMPORT SCHEMA USUARIOS
@@ -40,10 +42,9 @@ app.post('/', (req, res) => {
         }
 
         // Crear Token
-        var token = jwt.sign({ payload: usuarioDB },
-            '3n3rg1@1nt3gr@l', { expiresIn: '1h' });
+        usuarioDB.password = ':P'; //Ocultar pasword
+        var token = jwt.sign({ payload: usuarioDB }, SEED, { expiresIn: '1h' }); //Genero Token
 
-        usuarioDB.password = ':P';
 
         res.status(201).json({
             ok: true,

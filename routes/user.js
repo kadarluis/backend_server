@@ -1,6 +1,8 @@
 var express = require('express');
 var bcrypt = require('bcryptjs');
 
+var mdAutenticacion = require('../middleware/autentication');
+
 var app = express();
 
 //IMPORT SCHEMA USUARIOS
@@ -37,7 +39,7 @@ app.get("/", (req, res, next) => {
 //  CREAR LOS USUARIOS
 // ========================================================
 
-app.post('/', (req, res) => {
+app.post('/', mdAutenticacion.verificaToken, (req, res) => {
 
     var body = req.body;
 
@@ -61,7 +63,8 @@ app.post('/', (req, res) => {
 
         res.status(201).json({
             ok: true,
-            usuario: usuarioSave
+            usuarioGuardado: usuarioSave,
+            usuarioToken: req.usuario
         });
 
     });
@@ -71,7 +74,7 @@ app.post('/', (req, res) => {
 //  ACTUALIZAR LOS USUARIOS
 // ========================================================
 
-app.put('/:id', (req, res) => {
+app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
     var id = req.params.id;
     var body = req.body;
@@ -114,7 +117,8 @@ app.put('/:id', (req, res) => {
 
             res.status(200).json({
                 ok: true,
-                usuario: usuarioSave
+                usuarioActualizado: usuarioSave,
+                usuarioToken: req.usuario
             });
         });
     });
@@ -124,7 +128,7 @@ app.put('/:id', (req, res) => {
 //  BORRAR USUARIOS
 // ========================================================
 
-app.delete('/:id', (req, res) => {
+app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
     var id = req.params.id
 
@@ -151,7 +155,8 @@ app.delete('/:id', (req, res) => {
 
         res.status(200).json({
             ok: true,
-            usuario: usuarioDelete
+            usuarioBorrado: usuarioDelete,
+            usuarioToken: req.usuario
         });
 
     });
