@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 appRoutes = require('./routes/app');
 userRoutes = require('./routes/user');
 loginRoutes = require('./routes/login');
+instalacionesRoutes = require('./routes/instalacion');
 
 
 // INITIALIZA
@@ -25,6 +26,7 @@ mongoose.connect('mongodb://localhost:27017/eiaDB', (err, res) => {
 
 //ROUTES
 app.use('/user', userRoutes);
+app.use('/instalaciones', instalacionesRoutes);
 app.use('/login', loginRoutes);
 app.use('/', appRoutes);
 

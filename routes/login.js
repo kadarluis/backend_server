@@ -41,7 +41,9 @@ app.post('/', (req, res) => {
             });
         }
 
-        // Crear Token
+        ///////////////////////////////
+        // CREAR TOKEN
+        ///////////////////////////////
         usuarioDB.password = ':P'; //Ocultar pasword
         var token = jwt.sign({ payload: usuarioDB }, SEED, { expiresIn: '1h' }); //Genero Token
 
