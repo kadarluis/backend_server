@@ -68,7 +68,7 @@ var userSchema = new Schema({
     },
     SEGUIMIENTO_EIA: {
         type: String
-    },
+    }
 
 
 });
